@@ -1,15 +1,14 @@
 from flask import Flask
-
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 
 # TODO how is this working without cors and what is cors?
-
-from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 
 # Setup the flask-jwt-extended extension
 app.config["JWT_SECRET_KEY"] = "l-jake-w-mike-tyson"
+
 jwt = JWTManager(app)
 
 # Setup the database

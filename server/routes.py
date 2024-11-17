@@ -1,12 +1,12 @@
 from app import app, db
 from flask import jsonify, request
-from models import Users
+from models import Users, Blogs
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import datetime
 
 
-@app.route("/register", methods=["POST"])
+@app.route("/api/register", methods=["POST"])
 def register():
     data = request.get_json()
     name = data["name"]
@@ -18,7 +18,7 @@ def register():
     db.session.commit()
     return jsonify({"message": "User registered successfully"}), 201
 
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
     data = request.get_json()
     username = data["username"]
@@ -29,7 +29,29 @@ def login():
     access_token = create_access_token(identity=user.id, expires_delta=datetime.timedelta(hours=1))
     return jsonify({"access_token": access_token})
 
-@app.route("/protected", methods=["GET"])
+@app.route("/api/blogs", methods=["POST"])
+@jwt_required()
+def create_blog():
+    curr_user_id = get_jwt_identity()
+    data = request.get_json()
+    title = data["title"]
+    body = data["body"]
+    new_post = Blogs(title=title, body=body, author_id=curr_user_id)
+    db.session.add(new_post)
+    db.session.commit()
+    return jsonify({"message": "Blog post added successfully"}), 201
+
+@app.route("/api/blogs", methods=["GET"])
+def blogs():
+    blogs = Blogs.query.all()
+    result = []
+    print(type(blogs[0]))
+    for blog in blogs:
+        result.append(blog.to_json())
+    return jsonify(result), 200
+
+
+@app.route("/api/protected", methods=["GET"])
 @jwt_required()
 def protected():
     curr_user_id = get_jwt_identity()

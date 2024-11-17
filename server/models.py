@@ -14,3 +14,16 @@ class Users(db.Model):
             "password": self.password
         }
     
+class Blogs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "body": self.body,
+            "authorId": self.author_id
+        }
