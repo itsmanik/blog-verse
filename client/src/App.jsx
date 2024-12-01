@@ -1,5 +1,7 @@
+import { Flex, Text, Button } from "@radix-ui/themes";
+
 function App() {
-  return <>App</>;
+  return <></>;
 }
 
 export default App;
