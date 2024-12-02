@@ -43,7 +43,7 @@ const Navbar = () => {
               </li>
             ) : (
               <li>
-                <Link to={"/login"}>Sign in</Link>
+                <Link to={"/login"}>Log in</Link>
               </li>
             )}
             {/* User Icon */}
@@ -52,7 +52,7 @@ const Navbar = () => {
                 <img
                   alt=""
                   src={`https://avatar.iran.liara.run/username?username=manik`}
-                  class="object-cover w-8 h-8 rounded-full shadow bg-gray-500"
+                  className="object-cover w-8 h-8 rounded-full shadow bg-gray-500"
                 />
               </li>
             )}
