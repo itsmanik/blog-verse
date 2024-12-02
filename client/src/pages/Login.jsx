@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import AuthContext from "../context/AuthContext";
 import api from "../utils/axios";
+import {Link} from "react-router"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -101,13 +102,13 @@ const Login = () => {
           </div>
           <p className="px-6 text-sm text-center dark:text-gray-600">
             Don't have an account yet?{" "}
-            <a
+            <Link
               rel="noopener noreferrer"
-              href="#"
+              to={"/register"}
               className="hover:underline text-secondaryColor"
             >
               Sign up
-            </a>
+            </Link>
             .
           </p>
         </div>
