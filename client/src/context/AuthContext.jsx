@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("authTokens");
     setIsAuthenticated(false);
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   const [authTokens, setAuthTokens] = useState(
