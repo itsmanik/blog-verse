@@ -1,4 +1,5 @@
 const BlogCard = ({ blog }) => {
+  const date = new Date(blog.created_at);
   return (
     <div>
       <div className="flex flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg shadow-md bg-[#1e1e1e] text-[#cecece]">
@@ -9,10 +10,22 @@ const BlogCard = ({ blog }) => {
             className="object-cover w-12 h-12 rounded-full shadow bg-gray-500"
           />
           <div className="flex flex-col space-y-1">
-            <a rel="noopener noreferrer" href="#" className="text-sm font-semibold">
+            <a
+              rel="noopener noreferrer"
+              href="#"
+              className="text-sm font-semibold"
+            >
               {blog.author_username}
             </a>
-            <span className="text-xs text-gray-600">4 hours ago</span>
+            <span className="text-xs text-gray-600">
+              {`${date.toLocaleDateString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+              })} `}
+            </span>
           </div>
         </div>
         <div>
@@ -23,7 +36,9 @@ const BlogCard = ({ blog }) => {
             alt=""
             className="object-cover w-full mb-4 h-60 sm:h-40 bg-gray-300"
           />
-          <h2 className="mb-1 text-xl font-semibold text-[#c6c6c6]">{blog.title}</h2>
+          <h2 className="mb-1 text-xl font-semibold text-[#c6c6c6]">
+            {blog.title}
+          </h2>
           <p className="text-sm text-gray-500">
             {blog.content.length > 200
               ? `${blog.content.substring(0, 200)}...`
@@ -45,7 +60,11 @@ const BlogCard = ({ blog }) => {
                 <path d="M404,344a75.9,75.9,0,0,0-60.208,29.7L179.869,280.664a75.693,75.693,0,0,0,0-49.328L343.792,138.3a75.937,75.937,0,1,0-13.776-28.976L163.3,203.946a76,76,0,1,0,0,104.108l166.717,94.623A75.991,75.991,0,1,0,404,344Zm0-296a44,44,0,1,1-44,44A44.049,44.049,0,0,1,404,48ZM108,300a44,44,0,1,1,44-44A44.049,44.049,0,0,1,108,300ZM404,464a44,44,0,1,1,44-44A44.049,44.049,0,0,1,404,464Z"></path>
               </svg>
             </button>
-            <button aria-label="Bookmark this post" type="button" className="p-2">
+            <button
+              aria-label="Bookmark this post"
+              type="button"
+              className="p-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
