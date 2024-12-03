@@ -21,7 +21,7 @@ const Login = () => {
       });
       localStorage.setItem("authTokens", JSON.stringify(response.data));
       context.setIsAuthenticated(true);
-      navigate("/");
+      navigate("/blogs");
     } catch (error) {
       // Handle specific error types
       if (error.response && error.response.status === 401) {

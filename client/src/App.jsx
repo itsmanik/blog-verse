@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import BlogDetails from "./pages/BlogDetails";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             {/* Public Routes */}
-            <Route index element={<Home />} />
+            <Route path="/blogs" element={<Home />} />
+            <Route path="/blogs/:id" element={<BlogDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 

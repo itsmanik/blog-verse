@@ -34,7 +34,7 @@ const Navbar = () => {
           {/* Links */}
           <ul className={classes["navbar-links"]}>
             <li>
-              <Link to={"/"}>Home</Link>
+              <Link to={"/blogs"}>Home</Link>
             </li>
             {context.isAuthenticated && (
               <>

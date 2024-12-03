@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from .serializers import BlogSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Blog
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -20,3 +22,26 @@ class CreateBlog(CreateAPIView):
         user = self.request.user
         serializer.save(author=user)
 
+class BlogDetails(RetrieveAPIView):
+    queryset = Blog.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = BlogSerializer
+    lookup_field = 'id'
+
+class LikeBlog(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, id):
+        blog = Blog.objects.get(id=id)
+        user = request.user
+        if user in blog.liked_by.all():
+            print("if")
+            blog.likes -= 1
+            blog.liked_by.remove(user)
+            blog.save()
+            return Response({'message': 'Removed the like'})
+        else:
+            print("else")
+            blog.likes += 1
+            blog.liked_by.add(user)
+            blog.save()
+            return Response({'message': 'Blog liked successfully'})
