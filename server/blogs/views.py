@@ -38,10 +38,10 @@ class LikeBlog(APIView):
             blog.likes -= 1
             blog.liked_by.remove(user)
             blog.save()
-            return Response({'message': 'Removed the like'})
+            return Response({'liked': False})
         else:
             print("else")
             blog.likes += 1
             blog.liked_by.add(user)
             blog.save()
-            return Response({'message': 'Blog liked successfully'})
+            return Response({'liked': True})

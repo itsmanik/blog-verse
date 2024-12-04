@@ -8,6 +8,7 @@ export default {
         "secondaryColor": "#8f63ae",
         "customBlack": "#3333",
         "customWhite": "#c1c1c1",
+        "customGray": "#1e1e1e"
       },
     },
   },
