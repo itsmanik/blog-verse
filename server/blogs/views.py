@@ -45,3 +45,11 @@ class LikeBlog(APIView):
             blog.liked_by.add(user)
             blog.save()
             return Response({'liked': True})
+
+class UserBlogs(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        user = request.user
+        blogs = Blog.objects.filter(author=user.id)
+        serializer = BlogSerializer(blogs, many=True)
+        return Response(serializer.data)

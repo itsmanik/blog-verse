@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import BlogDetails from "./pages/BlogDetails";
+import Manage from "./pages/Manage";
 
 function App() {
   return (
@@ -29,6 +30,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreateBlog />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/manage"
+              element={
+                <ProtectedRoute>
+                  <Manage />
                 </ProtectedRoute>
               }
             />
