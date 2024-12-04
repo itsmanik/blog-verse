@@ -45,7 +45,7 @@ const Navbar = () => {
                   <Link to={"/manage"}>Manage</Link>
                 </li>
                 <li>
-                  <Link to={"/dashboard"}>Dashboard</Link>
+                  <Link to={"/analytics"}>Analytics</Link>
                 </li>
               </>
             )}

@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CreateBlog from "./pages/CreateBlog";
-import Dashboard from "./pages/Dashboard";
+import Analytics from "./pages/Analytics";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -42,10 +42,10 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
+              path="/analytics"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <Analytics />
                 </ProtectedRoute>
               }
             />
