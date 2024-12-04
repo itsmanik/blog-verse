@@ -1,4 +1,3 @@
-import classes from "./CreateBlog.module.css";
 import { useState } from "react";
 import { Heading, Button } from "@radix-ui/themes";
 import api from "../utils/axios";
@@ -28,7 +27,7 @@ const CreateBlog = () => {
         alert("Blog created successfully");
       }
     } catch (error) {
-      alert("error creating blog");
+      alert("Error creating blog");
     }
 
     // Reset form fields
@@ -39,53 +38,88 @@ const CreateBlog = () => {
   };
 
   return (
-    <div className="blog-form-container m-8">
-      <Heading size={"7"} className="mb-4">
-        Create a new blog
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-customGray rounded-lg shadow-lg">
+      <Heading size="7" className="mb-6 text-center text-gray-200">
+        Create a New Blog
       </Heading>
-      <form className="blog-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Title */}
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-300 mb-1"
+          >
+            Blog Title
+          </label>
           <input
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter blog title"
-            className="mb-2"
+            className="w-full px-4 py-2 text-gray-200 border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
+
+        {/* Description */}
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-300 mb-1"
+          >
+            Blog Description
+          </label>
           <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter blog description"
             rows="5"
-            className="mb-2"
+            className="w-full px-4 py-2 text-gray-200 border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
             required
-          />
+          ></textarea>
         </div>
-        <div className="form-group">
-          <label htmlFor="image">Upload Image</label>
+
+        {/* Image Upload */}
+        {/* <div>
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-gray-300 mb-1"
+          >
+            Upload Image
+          </label>
           <input
             type="file"
             id="image"
             accept="image/*"
             onChange={handleImageChange}
-            className="mb-6"
+            className="w-full px-3 py-2 bg-gray-700 text-gray-300 border border-gray-600 rounded-lg cursor-pointer focus:ring-2 focus:ring-primary focus:outline-none"
           />
-        </div>
+        </div> */}
+
+        {/* Image Preview */}
         {preview && (
-          <div className="image-preview">
-            <img src={preview} alt="Preview" />
-          </div>
+          {/* <div className="mt-4">
+            <p className="text-gray-300 mb-2">Image Preview:</p>
+            <img
+              src={preview}
+              alt="Preview"
+              className="w-full h-64 object-cover rounded-lg shadow-md"
+            />
+          </div> */}
         )}
-        <button type="submit" className="bg-primaryColor px-4 py-2 rounded-lg">
+
+        {/* Submit Button */}
+        <Button
+          as="button"
+          type="submit"
+          variant="primary"
+          size="large"
+          className="w-full text-lg"
+        >
           Create Blog
-        </button>
+        </Button>
       </form>
     </div>
   );

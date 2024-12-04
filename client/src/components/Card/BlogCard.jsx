@@ -9,49 +9,51 @@ const BlogCard = ({ blog }) => {
         onClick={() => {
           navigate("/blogs/" + blog.id);
         }}
-        className="flex flex-col cursor-pointer max-w-lg p-6 space-y-6 overflow-hidden rounded-lg shadow-md bg-[#1e1e1e] text-[#cecece]"
+        className="flex flex-col h-[32rem] justify-between overflow-hidden cursor-pointer max-w-lg p-6 space-y-6 rounded-lg shadow-md bg-[#1e1e1e] text-[#cecece]"
       >
-        <div className="flex space-x-4">
-          <img
-            alt=""
-            src={`https://avatar.iran.liara.run/username?username=${blog.author_username}`}
-            className="object-cover w-12 h-12 rounded-full shadow bg-gray-500"
-          />
-          <div className="flex flex-col space-y-1">
-            <a
-              rel="noopener noreferrer"
-              href="#"
-              className="text-sm font-semibold"
-            >
-              {blog.author_username}
-            </a>
-            <span className="text-xs text-gray-600">
-              {`${date.toLocaleDateString("en-US", {
-                hour: "2-digit",
-                minute: "2-digit",
-                day: "2-digit",
-                month: "2-digit",
-                year: "2-digit",
-              })} `}
-            </span>
-          </div>
-        </div>
         <div>
-          <img
-            src={`https://picsum.photos/id/${
-              Math.floor(Math.random() * 500) + 1
-            }/200/300`}
-            alt=""
-            className="object-cover w-full mb-4 h-60 sm:h-40 bg-gray-300"
-          />
-          <h2 className="mb-1 text-xl font-semibold text-[#c6c6c6]">
-            {blog.title}
-          </h2>
-          <p className="text-sm text-gray-500">
-            {blog.content.length > 200
-              ? `${blog.content.substring(0, 200)}...`
-              : blog.content}
-          </p>
+          <div className="flex space-x-4">
+            <img
+              alt=""
+              src={`https://avatar.iran.liara.run/username?username=${blog.author_username}`}
+              className="object-cover w-12 h-12 rounded-full shadow bg-gray-500"
+            />
+            <div className="flex flex-col space-y-1">
+              <a
+                rel="noopener noreferrer"
+                href="#"
+                className="text-sm font-semibold"
+              >
+                {blog.author_username}
+              </a>
+              <span className="text-xs text-gray-600">
+                {`${date.toLocaleDateString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "2-digit",
+                })} `}
+              </span>
+            </div>
+          </div>
+          <div className="mt-5">
+            <img
+              src={`https://picsum.photos/id/${
+                Math.floor(Math.random() * 500) + 1
+              }/200/300`}
+              alt=""
+              className="object-cover w-full mb-4 h-60 sm:h-40 bg-gray-300"
+            />
+            <h2 className="mb-1 text-xl font-semibold text-[#c6c6c6]">
+              {blog.title}
+            </h2>
+            <p className="text-sm text-gray-500">
+              {blog.content.length > 200
+                ? `${blog.content.substring(0, 200)}...`
+                : blog.content}
+            </p>
+          </div>
         </div>
         <div className="flex flex-wrap justify-between">
           <div className="space-x-2">
