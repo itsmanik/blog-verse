@@ -24,7 +24,6 @@ const CreateBlog = () => {
         content: description,
       });
       if (response.status === 201) {
-        alert("Blog created successfully");
       }
     } catch (error) {
       alert("Error creating blog");

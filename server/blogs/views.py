@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView
-from .serializers import BlogSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView, ListCreateAPIView
+from .serializers import BlogSerializer, CommentSerializer
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from .models import Blog
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
+from .models import Blog, Comment
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -66,3 +66,16 @@ class UserBlogs(APIView):
         blogs = Blog.objects.filter(author=user.id)
         serializer = BlogSerializer(blogs, many=True)
         return Response(serializer.data)
+    
+class Comments(ListCreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        blog = Blog.objects.get(id=self.kwargs['blog_id'])
+        return Comment.objects.filter(blog=blog)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        blog = Blog.objects.get(id=self.kwargs['blog_id'])
+        serializer.save(author=user, blog=blog)

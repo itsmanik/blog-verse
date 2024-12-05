@@ -9,44 +9,36 @@ const BlogDetails = () => {
   const [blog, setBlog] = useState({});
   const { id } = useParams();
 
+  const fetchComments = async () => {
+    try {
+      const response = await api.get(`blogs/${id}/comment/`);
+      console.log("fetching")
+      setComments(response.data);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
   useEffect(() => {
     async function fetchBlogDetails() {
       try {
         const response = await api.get("blogs/" + id);
         setBlog(response.data);
-        setLikes(response.data.likes); // Assuming the API returns the initial likes
-        setComments(response.data.comments || []); // Assuming the API returns comments
+        setLikes(response.data.likes);
       } catch (error) {
         console.log(error);
       }
     }
     fetchBlogDetails();
+    fetchComments();
   }, []);
 
-  const blogDeleteHandler = async () => {
-    try {
-      if (window.confirm("Are you sure you want to delete this blog?")) {
-        await api.delete(`blogs/${id}`);
-        alert("Blog deleted successfully!");
-        // Redirect or handle after deletion
-      }
-    } catch (error) {
-      console.error("Error deleting blog:", error);
-    }
-  };
-
   const handleAddComment = async () => {
-    if (newComment.trim()) {
-      try {
-        const response = await api.post(`blogs/${id}/comments`, {
-          comment: newComment,
-        });
-        setComments([...comments, response.data]); // Assuming the API returns the new comment
-        setNewComment("");
-      } catch (error) {
-        console.error("Error adding comment:", error);
-      }
-    }
+    const response = await api.post(`blogs/${id}/comment/`, {
+      content: newComment,
+    });
+    setNewComment("");
+    fetchComments();
   };
 
   const blogLikeHandler = async () => {
@@ -116,39 +108,74 @@ const BlogDetails = () => {
 
         {/* Comment Section */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Comments</h2>
-          <div className="mb-4">
-            <textarea
-              className="w-full p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg"
-              rows="3"
-              placeholder="Add a comment..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            ></textarea>
-            <button
-              className="mt-2 px-4 py-2 bg-primaryColor text-white rounded-lg hover:bg-[#4a1689] transition"
-              onClick={handleAddComment}
-            >
-              Add Comment
-            </button>
-          </div>
           <div>
-            {comments.length > 0 ? (
-              <ul className="space-y-3">
-                {comments.map((comment, index) => (
-                  <li
-                    key={index}
-                    className="bg-gray-700 p-3 rounded-lg text-gray-200 shadow"
-                  >
-                    {comment}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-400">
-                No comments yet. Be the first to comment!
-              </p>
-            )}
+            <h2 className="text-2xl font-semibold mb-4">Comments</h2>
+            {/* Comment Input */}
+            <div className="mb-4">
+              <textarea
+                className="w-full p-3 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg"
+                rows="3"
+                placeholder="Add a comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              ></textarea>
+              <button
+                className="mt-2 px-4 py-2 bg-primaryColor text-white rounded-lg hover:bg-[#4a1689] transition"
+                onClick={handleAddComment}
+              >
+                Add Comment
+              </button>
+            </div>
+
+            {/* Comment List */}
+            <div>
+              {comments.length > 0 ? (
+                <ul className="space-y-4">
+                  {comments.map((comment, index) => (
+                    <li
+                      key={index}
+                      className="bg-[#2f2f2f] p-4 rounded-lg flex items-start space-x-4"
+                    >
+                      {/* User Icon */}
+                      <div className="flex-shrink-0">
+                        <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-sm">
+                            {comment.author_username
+                              ? comment.author_username.charAt(0).toUpperCase()
+                              : "A"}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Comment Content */}
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm text-gray-400">
+                            <strong>
+                              {comment.author_username || "Anonymous"}
+                            </strong>{" "}
+                            commented on{" "}
+                            {new Date(comment.commented_at).toLocaleString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "numeric",
+                              }
+                            )}
+                          </span>
+                        </div>
+                        <p className="text-gray-300">{comment.content}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-400">
+                  No comments yet. Be the first to comment!
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
