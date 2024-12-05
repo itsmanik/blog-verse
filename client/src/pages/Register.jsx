@@ -55,7 +55,7 @@ const Register = () => {
               onChange={(e) => {
                 setName(e.target.value);
               }}
-              className="w-full px-3 py-2 mb-4 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+              className="w-full px-3 py-2 mb-4 border rounded-md dark:border-gray-300 text-white"
             />
             <label
               htmlFor="username"
@@ -72,7 +72,7 @@ const Register = () => {
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
-              className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+              className="w-full px-3 py-2 border rounded-md dark:border-gray-300 text-white"
             />
           </div>
           <div>
@@ -90,7 +90,7 @@ const Register = () => {
                 setPassword(e.target.value);
               }}
               placeholder="*****"
-              className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+              className="w-full px-3 py-2 border rounded-md dark:border-gray-300 text-white"
             />
           </div>
         </div>

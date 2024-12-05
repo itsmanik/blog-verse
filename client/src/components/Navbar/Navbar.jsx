@@ -26,7 +26,7 @@ const Navbar = () => {
       <nav className={classes.navbar}>
         {/* Logo */}
         <div className={classes["navbar-logo"]}>
-          <a href="/">BlogVerse</a>
+          <Link to="/">BlogVerse</Link>
         </div>
 
         {/* Links container */}

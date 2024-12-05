@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import BlogDetails from "./pages/BlogDetails";
 import Manage from "./pages/Manage";
+import Welcome from "./pages/Welcome"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<MainLayout />}>
+            <Route index element={<Welcome />} />
             {/* Public Routes */}
             <Route path="/blogs" element={<Home />} />
             <Route path="/blogs/:id" element={<BlogDetails />} />
