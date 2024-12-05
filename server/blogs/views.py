@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView
 from .serializers import BlogSerializer
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Blog
 from rest_framework.views import APIView
@@ -21,6 +22,18 @@ class CreateBlog(CreateAPIView):
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(author=user)
+
+class DeleteBlog(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    lookup_field = 'id'
+
+    def perform_destroy(self, instance):
+        if instance.author != self.request.user:
+            raise PermissionDenied("You do not have permission to delete this blog.")
+        instance.delete()
+
 
 class BlogDetails(RetrieveAPIView):
     queryset = Blog.objects.all()

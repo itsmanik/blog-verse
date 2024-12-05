@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import api from "../../utils/axios";
 
-const ManageBlogCard = ({ blog }) => {
-  const deleteBlogHandler = () => {
-    alert("deleting blog...");
+const ManageBlogCard = ({ blog, onDelete }) => {
+  const deleteBlogHandler = async () => {
+    const response = await api.delete(`blogs/delete/${blog.id}/`);
+    await console.log(response.status);
+    onDelete();
   };
   const navigate = useNavigate();
   const date = new Date(blog.created_at);
@@ -33,7 +36,9 @@ const ManageBlogCard = ({ blog }) => {
           <div className="space-x-2">
             <AlertDialog.Root>
               <AlertDialog.Trigger>
-                <Button className="cursor-pointer" color="red">Delete</Button>
+                <Button className="cursor-pointer" color="red">
+                  Delete
+                </Button>
               </AlertDialog.Trigger>
               <AlertDialog.Content maxWidth="450px">
                 <AlertDialog.Title>Delete Blog</AlertDialog.Title>
