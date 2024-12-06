@@ -38,8 +38,12 @@ class DeleteBlog(DestroyAPIView):
 class BlogDetails(RetrieveAPIView):
     queryset = Blog.objects.all()
     permission_classes = [AllowAny]
-    serializer_class = BlogSerializer
-    lookup_field = 'id'
+    def retrieve(self, request, *args, **kwargs):
+        blog = Blog.objects.get(id=kwargs['id'])
+        blog.views += 1
+        blog.save()
+        serializer = BlogSerializer(blog, many=False)
+        return Response(serializer.data)
 
 class LikeBlog(APIView):
     permission_classes = [IsAuthenticated]

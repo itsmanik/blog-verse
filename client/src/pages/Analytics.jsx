@@ -10,11 +10,12 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import Engagements from "../components/Table/Engagements";
 
 const Analytics = () => {
   const data = [
     {
-      name: "Blog A",
+      name: "Big black balls... ",
       views: 4000,
       likes: 2400,
     },
@@ -70,7 +71,7 @@ const Analytics = () => {
             contentStyle={{
               backgroundColor: "#333",
               borderRadius: "8px",
-              border: "1px solid #888", 
+              border: "1px solid #888",
               color: "#fff",
             }}
             cursor={{ fill: "rgba(200, 200, 200, 0.3)" }}
@@ -88,6 +89,7 @@ const Analytics = () => {
           />
         </BarChart>
       </ResponsiveContainer>
+      <Engagements />
     </div>
   );
 };

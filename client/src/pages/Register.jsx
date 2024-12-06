@@ -22,7 +22,6 @@ const Register = () => {
         password: password,
       });
       if (response.status === 201) {
-        context.setIsAuthenticated(true);
         navigate("/login");
       }
     } catch (error) {
