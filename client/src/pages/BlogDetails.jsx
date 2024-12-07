@@ -12,7 +12,7 @@ const BlogDetails = () => {
   const fetchComments = async () => {
     try {
       const response = await api.get(`blogs/${id}/comment/`);
-      console.log("fetching")
+      console.log("fetching");
       setComments(response.data);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -21,6 +21,7 @@ const BlogDetails = () => {
 
   useEffect(() => {
     async function fetchBlogDetails() {
+      console.log("bro");
       try {
         const response = await api.get("blogs/" + id);
         setBlog(response.data);

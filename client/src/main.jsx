@@ -8,12 +8,13 @@ import { ThemePanel } from "@radix-ui/themes";
 import { BrowserRouter } from "react-router";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // strict mode is turned off because of a bug in counting views
+  // <StrictMode>
     <BrowserRouter>
       <Theme accentColor="plum" appearance="dark">
         <App />
         {/* <ThemePanel /> */}
       </Theme>
     </BrowserRouter>
-  </StrictMode>
+  // </StrictMode>
 );
