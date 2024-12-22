@@ -1,12 +1,76 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heading, Button } from "@radix-ui/themes";
 import api from "../utils/axios";
+import Select from "react-select";
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [tags, setTags] = useState([]);
+  const [options, setOptions] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const tagStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: "#121212",
+      borderColor: state.isFocused ? "#3b82f6" : "#374151",
+      color: "#d1d5db",
+      boxShadow: state.isFocused ? "0 0 0 2px #3b82f6" : "none",
+      "&:hover": {
+        borderColor: "#3b82f6",
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: "#121212",
+      borderRadius: "0.375rem",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#0044b3"
+        : state.isFocused
+        ? "#000000"
+        : "#121212",
+      color: state.isSelected ? "#f9fafb" : "#d1d5db",
+      cursor: "pointer",
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: "#374151",
+      color: "#d1d5db",
+      borderRadius: "0.375rem",
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      color: "#d1d5db",
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      color: "#9ca3af",
+      "&:hover": {
+        backgroundColor: "#ef4444",
+        color: "#ffffff",
+      },
+    }),
+  };
+
+  const getTags = async () => {
+    const response = await api.get("blogs/tags/");
+    setTags(response.data);
+    setOptions(
+      response.data.map((tag) => {
+        return { value: tag.name, label: tag.name, id: tag.id };
+      })
+    );
+  };
+
+  useEffect(() => {
+    getTags();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -18,10 +82,14 @@ const CreateBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const tagIds = selectedTags.map((tag) => {
+      return tag.id;
+    });
     try {
       const response = await api.post("blogs/create/", {
         title: title,
         content: description,
+        tags: tagIds,
       });
       if (response.status === 201) {
       }
@@ -80,6 +148,26 @@ const CreateBlog = () => {
           ></textarea>
         </div>
 
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-300 mb-1"
+          >
+            Tags
+          </label>
+          <Select
+            isMulti
+            name="tags"
+            options={options}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            styles={tagStyles}
+            onChange={(selectedOptions) => {
+              setSelectedTags(selectedOptions || []);
+            }}
+          />
+        </div>
+
         {/* Image Upload */}
         {/* <div>
           <label
@@ -98,16 +186,17 @@ const CreateBlog = () => {
         </div> */}
 
         {/* Image Preview */}
-        {preview && (
-          {/* <div className="mt-4">
+        {preview &&
+          {
+            /* <div className="mt-4">
             <p className="text-gray-300 mb-2">Image Preview:</p>
             <img
               src={preview}
               alt="Preview"
               className="w-full h-64 object-cover rounded-lg shadow-md"
             />
-          </div> */}
-        )}
+          </div> */
+          }}
 
         {/* Submit Button */}
         <Button

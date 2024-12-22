@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Blogs, CreateBlog, BlogDetails, LikeBlog, UserBlogs, DeleteBlog, Comments
+from .views import Blogs, CreateBlog, BlogDetails, LikeBlog, UserBlogs, DeleteBlog, Comments, Tags
 
 urlpatterns = [
     path('', Blogs.as_view(), name='blog_list'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:id>/like/', LikeBlog.as_view(), name='like_blog'),
     path('my-blogs/', UserBlogs.as_view(), name='user_blogs'),
     path('<int:blog_id>/comment/', Comments.as_view(), name='comment'),
+    path('tags/', Tags.as_view(), name='tags')   
 ]

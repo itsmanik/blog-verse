@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView, ListCreateAPIView
-from .serializers import BlogSerializer, CommentSerializer
+from .serializers import BlogSerializer, CommentSerializer, TagSerializer
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
-from .models import Blog, Comment
+from .models import Blog, Comment, Tag
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -13,6 +13,11 @@ from rest_framework.response import Response
 class Blogs(ListAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    permission_classes = [AllowAny]
+
+class Tags(ListAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
     permission_classes = [AllowAny]
 
 class CreateBlog(CreateAPIView):

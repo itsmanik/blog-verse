@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Blog, Comment
+from .models import Blog, Comment, Tag
 
 class BlogSerializer(serializers.ModelSerializer):
     author_username = serializers.CharField(source="author.username", read_only=True)
@@ -19,3 +19,8 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'blog', 'author', 'content', 'commented_at', 'author_username']
         read_only_fields = ['blog', 'author', 'commented_at']
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name']
