@@ -2,9 +2,16 @@ from django.db import models
 from users.models import CustomUser
 # Create your models here.
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True, null=True)
+
+    def __str__(self):
+        return f'Tag: {self.name}'
+
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
+    tags = models.ManyToManyField(Tag, related_name="blogs", blank=True)
     likes = models.PositiveIntegerField(default=0)
     liked_by = models.ManyToManyField(CustomUser, related_name="liked_blogs", blank=True)
     views = models.PositiveIntegerField(default=0)
