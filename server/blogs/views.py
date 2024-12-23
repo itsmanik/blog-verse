@@ -7,13 +7,34 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAu
 from .models import Blog, Comment, Tag
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.conf import settings
+import google.generativeai as genai
+from django.core.serializers import serialize
+import json
+
+genai.configure(api_key=settings.API_KEY)   
 
 # Create your views here.
 
 class Blogs(ListAPIView):
-    queryset = Blog.objects.all()
     serializer_class = BlogSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        print("nigga")
+        tags_json = serialize('json', Tag.objects.all())
+
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        response = model.generate_content(f"From these tags: {', '.join(tags_json)}, which one is trending based on current events? Return an array with two elements, first be the id and second be the reason for choosing that. Let it be an array dont do any formatting, also dont add that ```json or anything like that")
+        json_response = json.loads(response.text)
+        print(json_response)
+        
+        trending_tag = Tag.objects.get(id=json_response[0])
+        trending_blogs = Blog.objects.filter(tags=trending_tag)
+        remaining_blogs = Blog.objects.exclude(tags=trending_tag)
+        combined_blogs = list(trending_blogs) + list(remaining_blogs)
+        # return Blog.objects.all()
+        return combined_blogs
 
 class Tags(ListAPIView):
     queryset = Tag.objects.all()
