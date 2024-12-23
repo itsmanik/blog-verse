@@ -25,10 +25,12 @@ class Blogs(ListAPIView):
 
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(f"From these tags: {', '.join(tags_json)}, which one is trending based on current events? Return an array with two elements, first be the id and second be the reason for choosing that. Let it be an array dont do any formatting, also dont add that ```json or anything like that")
+        # response = model.generate_content(f"From these tags: {', '.join(tags_json)}, choose one tag related to cooking? Return an array with two elements, first be the id and second be the reason for choosing that. Let it be an array dont do any formatting, also dont add that ```json or anything like that")
         json_response = json.loads(response.text)
         print(json_response)
         
         trending_tag = Tag.objects.get(id=json_response[0])
+        print("trending tag is ", trending_tag)
         trending_blogs = Blog.objects.filter(tags=trending_tag)
         remaining_blogs = Blog.objects.exclude(tags=trending_tag)
         combined_blogs = list(trending_blogs) + list(remaining_blogs)
