@@ -21,7 +21,6 @@ class Blogs(ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        print("nigga")
         tags_json = serialize('json', Tag.objects.all())
 
         model = genai.GenerativeModel("gemini-1.5-flash")
@@ -33,7 +32,6 @@ class Blogs(ListAPIView):
         trending_blogs = Blog.objects.filter(tags=trending_tag)
         remaining_blogs = Blog.objects.exclude(tags=trending_tag)
         combined_blogs = list(trending_blogs) + list(remaining_blogs)
-        # return Blog.objects.all()
         return combined_blogs
 
 class Tags(ListAPIView):

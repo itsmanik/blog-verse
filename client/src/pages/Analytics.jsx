@@ -27,43 +27,17 @@ const Analytics = () => {
     fetchBlogs();
   }, []);
 
-  const data = [
-    {
-      name: "Big black balls... ",
-      views: 4000,
-      likes: 2400,
-    },
-    {
-      name: "Blog B",
-      views: 3000,
-      likes: 1398,
-    },
-    {
-      name: "Blog C",
-      views: 2000,
-      likes: 9800,
-    },
-    {
-      name: "Blog D",
-      views: 2780,
-      likes: 3908,
-    },
-    {
-      name: "Blog E",
-      views: 1890,
-      likes: 4800,
-    },
-    {
-      name: "Blog F",
-      views: 2390,
-      likes: 3800,
-    },
-    {
-      name: "Blog G",
-      views: 3490,
-      likes: 4300,
-    },
-  ];
+  const data = blogs.map((blog, index) => {
+    const letter = "Blog " + String.fromCharCode(65 + index); // 65 is the ASCII code for 'A'
+    return {
+      name: letter, // Alphabetically numbered blog names (A, B, C, ...)
+      views: blog.views,
+      likes: blog.likes,
+    };
+  });
+  
+  
+
   return (
     <div className="mt-10 mb-14 w-full">
       <div className="h-[20rem]">
